@@ -23,4 +23,4 @@ Due to the lack of availability of older versions of Android for me to test this
 Other Information (Copyright Stuff)
 ===================================
 
-Copyright © 2014 Dark Realm Gaming. MIT License.
+Copyright © 2014 Dark Realm Gaming. The MIT License.

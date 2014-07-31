@@ -1,6 +1,6 @@
 /*
  * Sudo for Android Installer
- * com.darkrealmgaming.androidsudo.MainActivity
+ * com.darkrealmgaming.androidsudo.OssLicensesActivity
  * 
  * Copyright (c) 2014 Dark Realm Gaming
  * Licensed under The MIT License (http://github.com/ColtonDRG/AndroidSudo/blob/master/LICENSE)

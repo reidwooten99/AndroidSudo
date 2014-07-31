@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="libsuperuser_title">License for libsuperuser</string>
+    <string name="libsuperuser_license">\nCopyright © 2012–2013 Jorrit \&quot;Chainfire\&quot; Jongma\n\nLicensed under the Apache License, Version 2.0 (the \&quot;License\&quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n\thttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \&quot;AS IS\&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n</string>
+    <string name="androidsudo_title">License for Sudo Installer</string>
+    <string name="androidsudo_license">\nCopyright © 2014 Dark Realm Gaming\n\nThis software is licensed under The MIT License.\n\n\thttp://github.com/ColtonDRG/AndroidSudo/blob/master/LICENSE\n\n</string>
+    
+</resources>

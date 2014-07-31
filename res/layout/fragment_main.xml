@@ -22,6 +22,7 @@
         android:layout_alignLeft="@+id/warning"
         android:layout_alignRight="@+id/warning"
         android:layout_below="@+id/warning"
+        android:onClick="install"
         android:text="@string/install_button" />
 
     <Button
@@ -30,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/installButton"
         android:layout_below="@+id/installButton"
+        android:onClick="remove"
         android:text="@string/remove_button" />
 
     <TextView
@@ -49,5 +51,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="@string/current_version" />
+
+    <Button
+        android:id="@+id/aboutButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:onClick="aboutButton"
+        android:text="@string/about" />
 
 </RelativeLayout>

@@ -4,9 +4,14 @@
     tools:context="com.darkrealmgaming.androidsudo.MainActivity" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_about"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+        android:title="@string/about"
+        android:onClick="about"
+        android:icon="@android:drawable/ic_menu_info_details"
+        app:showAsAction="ifRoom">
+        
+    </item>
+    
 
 </menu>

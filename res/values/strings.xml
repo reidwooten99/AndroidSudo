@@ -12,7 +12,7 @@
     <string name="checking">Please wait…</string>
     <string name="sudo_download_path">/sdcard/sudo-temp</string>
     <string name="sudo_download_uri">http://dev.darkrealmgaming.com/androidsudo.txt</string>
-    <string name="current_version">Version 1.4.0</string>
+    <string name="current_version">Version 1.4.1</string>
     <string name="rootfail_title">Unable to Obtain Root Access</string>
     <string name="rootfail_message">We were not able to obtain root access! Are you properly rooted? Did you allow access to Sudo Installer?</string>
     <string name="retry">Try Again</string>

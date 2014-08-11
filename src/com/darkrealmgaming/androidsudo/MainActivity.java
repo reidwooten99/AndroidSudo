@@ -12,12 +12,15 @@ package com.darkrealmgaming.androidsudo;
 
 import java.io.File;
 
+import com.darkrealmgaming.androidapi.AssetManager;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -115,16 +118,18 @@ public class MainActivity extends ActionBarActivity {
     			Log.i(LOGTAG, "Getting Root Access...");
     			if(Shell.SU.available()) {
     				Log.i(LOGTAG, "Root Access Successful! Starting install...");
-    				Log.i(LOGTAG, "Downloading files...");
-    				Shell.SH.run("wget http://dev.darkrealmgaming.com/androidsudo.txt -O /sdcard/sudo-temp");
+    				// Log.i(LOGTAG, "Downloading files...");
+    				// Shell.SH.run("wget http://dev.darkrealmgaming.com/androidsudo.txt -O /sdcard/sudo-temp");
+    				Log.i(LOGTAG, "Using DRGAPI-AssetManager to extract files...");
+    				AssetManager.ExtractToStorage(MainActivity.this, "sudoscript.txt", "sudo-temp");
     				Log.i(LOGTAG, "Mounting /system as read-write...");
     				Shell.SU.run("mount -o remount,rw /system");
     				Log.i(LOGTAG, "Copying files...");
-            		Shell.SU.run("cp /sdcard/sudo-temp /system/xbin/sudo");
+            		Shell.SU.run("cp " + Environment.getExternalStorageDirectory() + "/sudo-temp /system/xbin/sudo");
             		Log.i(LOGTAG, "Setting permissions...");
             		Shell.SU.run("chmod 755 /system/xbin/sudo");
             		Log.i(LOGTAG, "Cleaning up temporary data...");
-            		Shell.SH.run("rm -rf /sdcard/sudo-temp");
+            		Shell.SH.run("rm -rf "+ Environment.getExternalStorageDirectory() + "/sudo-temp");
             		Log.i(LOGTAG, "Finishing up...");
             		Shell.SU.run("mount -o remount /system");
             		Log.i(LOGTAG, "Install complete! Rechecking if Sudo is installed...");
@@ -136,6 +141,23 @@ public class MainActivity extends ActionBarActivity {
     		}
     	}.start();
 
+    }
+    
+    public void recoveryInstall(View view){
+    	// This is an early preparation for the future Recovery Install feature.
+		Log.i(LOGTAG, "Recovery Install button pressed. Showing recovery install information...");
+		Builder recoveryInfo = new AlertDialog.Builder(MainActivity.this);
+        recoveryInfo.setMessage(R.string.rootfail_message);
+        recoveryInfo.setTitle(R.string.rootfail_title);
+        recoveryInfo.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface dialog, int which) { 
+        		// Installation code goes here.
+        	}
+        });
+        recoveryInfo.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface dialog, int which) {}
+        });
+        recoveryInfo.show();
     }
     
     public void remove(View view){
@@ -166,7 +188,8 @@ public class MainActivity extends ActionBarActivity {
 		MainActivity.this.runOnUiThread(new Runnable() {
 		    @Override
 		    public void run() {
-		    	Log.e(LOGTAG, "Unable to get root access! Sudo cannot be removed!");
+		    	Log.e(LOGTAG, "Unable to get root access! Sudo cannot be installed/removed!");
+        		Log.i(LOGTAG, "Showing error information...");
 		    	Builder suFailed = new AlertDialog.Builder(MainActivity.this);
         		suFailed.setMessage(R.string.rootfail_message);
         		suFailed.setTitle(R.string.rootfail_title);
@@ -183,7 +206,6 @@ public class MainActivity extends ActionBarActivity {
         		suFailed.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
         			public void onClick(DialogInterface dialog, int which) {}
         		});
-        		Log.i(LOGTAG, "Showing error information...");
         		suFailed.show();
 		    }
 		});
@@ -207,6 +229,8 @@ public class MainActivity extends ActionBarActivity {
 		this.retryInstall = retryInstall;
 		return retryInstall;
 	}
+	
+	
 	
 	
 	

@@ -52,14 +52,4 @@
         android:layout_alignParentRight="true"
         android:text="@string/current_version" />
 
-    <Button
-        android:id="@+id/aboutButton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:onClick="aboutButton"
-        android:text="@string/about" />
-
 </RelativeLayout>

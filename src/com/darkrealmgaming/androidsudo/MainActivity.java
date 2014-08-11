@@ -118,18 +118,16 @@ public class MainActivity extends ActionBarActivity {
     			Log.i(LOGTAG, "Getting Root Access...");
     			if(Shell.SU.available()) {
     				Log.i(LOGTAG, "Root Access Successful! Starting install...");
-    				// Log.i(LOGTAG, "Downloading files...");
-    				// Shell.SH.run("wget http://dev.darkrealmgaming.com/androidsudo.txt -O /sdcard/sudo-temp");
     				Log.i(LOGTAG, "Using DRGAPI-AssetManager to extract files...");
     				AssetManager.ExtractToStorage(MainActivity.this, "sudoscript.txt", "sudo-temp");
     				Log.i(LOGTAG, "Mounting /system as read-write...");
     				Shell.SU.run("mount -o remount,rw /system");
     				Log.i(LOGTAG, "Copying files...");
-            		Shell.SU.run("cp " + Environment.getExternalStorageDirectory() + "/sudo-temp /system/xbin/sudo");
+            		Shell.SU.run("cp /sdcard/sudo-temp /system/xbin/sudo");
             		Log.i(LOGTAG, "Setting permissions...");
             		Shell.SU.run("chmod 755 /system/xbin/sudo");
             		Log.i(LOGTAG, "Cleaning up temporary data...");
-            		Shell.SH.run("rm -rf "+ Environment.getExternalStorageDirectory() + "/sudo-temp");
+            		Shell.SH.run("rm -rf /sdcard/sudo-temp");
             		Log.i(LOGTAG, "Finishing up...");
             		Shell.SU.run("mount -o remount /system");
             		Log.i(LOGTAG, "Install complete! Rechecking if Sudo is installed...");
@@ -209,11 +207,6 @@ public class MainActivity extends ActionBarActivity {
         		suFailed.show();
 		    }
 		});
-    }
-    
-    public void aboutButton(View view) {
-		Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-		startActivity(intent);
     }
     
     public void about(MenuItem item){

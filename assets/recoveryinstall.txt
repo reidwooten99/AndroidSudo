@@ -1,0 +1,2 @@
+set tw_signed_zip_verify 0
+install /data/data/com.darkrealmgaming.androidsudo/cache/sudo-temp.zip

@@ -16,11 +16,11 @@ import com.darkrealmgaming.androidapi.AssetManager;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -34,15 +34,18 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends ActionBarActivity {
 	
-	private boolean retryInstall = true;
+	// Tells the root failure class what class to run if the Retry button is pressed
+	private int retryMode;
 
+	// The tag that is used for this application's logcat entries
 	public static final String LOGTAG = "AndroidSudoInstaller";
+	
 	
     @Override
     protected void onCreate(Bundle androidSudo) {
         super.onCreate(androidSudo);
         setContentView(R.layout.activity_main);
-    	
+        
         if (androidSudo == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -52,45 +55,18 @@ public class MainActivity extends ActionBarActivity {
     }
     
     
-    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	
-    	refresh(null);
-    	
-    	// final Button install = (Button) findViewById(R.id.installButton);
-    	// install.setOnClickListener(new View.OnClickListener() {
-            // public void onClick(View v) {
-            	// install();
-            // }
-        // });
-    	
-    	
-    	// final Button remove = (Button) findViewById(R.id.removeButton);
-    	// remove.setOnClickListener(new View.OnClickListener() {
-            // public void onClick(View v) {
-            	// remove();
-            // }
-        // });
-    	
-    	
-    	// final Button about = (Button) findViewById(R.id.aboutButton);
-    	// about.setOnClickListener(new View.OnClickListener() {
-    		// public void onClick(View v) {
-    			// Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-    			// startActivity(intent);
-    		// }
-    	// });
+    	// Check the current install status
+    	refresh();
     	
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-
     }
     
-    
-    
-    public void refresh(View view){
+    // Class for checking the current install status
+    public void refresh(){
     	MainActivity.this.runOnUiThread(new Runnable() {
 		    @Override
 		    public void run() {
@@ -110,8 +86,9 @@ public class MainActivity extends ActionBarActivity {
     	});
     }
     
+    // Normal installation class
     public void install(View view){
-    	setRetryInstall(true);
+    	retryMode = 0;
     	Log.i(LOGTAG, "Install button pressed! Starting install...");
     	new Thread() {
     		public void run() {
@@ -119,21 +96,18 @@ public class MainActivity extends ActionBarActivity {
     			if(Shell.SU.available()) {
     				Log.i(LOGTAG, "Root Access Successful! Starting install...");
     				Log.i(LOGTAG, "Using DRGAPI-AssetManager to extract files...");
-    				AssetManager.ExtractToStorage(MainActivity.this, "sudoscript.txt", "sudo-temp");
+    				AssetManager.ExtractToAppCache(MainActivity.this, "sudoscript.txt", "sudo-temp");
     				Log.i(LOGTAG, "Mounting /system as read-write...");
     				Shell.SU.run("mount -o remount,rw /system");
     				Log.i(LOGTAG, "Copying files...");
-            		Shell.SU.run("cp /sdcard/sudo-temp /system/xbin/sudo");
+            		Shell.SU.run("cp " + MainActivity.this.getCacheDir() + "/sudo-temp /system/xbin/sudo");
             		Log.i(LOGTAG, "Setting permissions...");
             		Shell.SU.run("chmod 755 /system/xbin/sudo");
-            		Log.i(LOGTAG, "Cleaning up temporary data...");
-            		Shell.SH.run("rm -rf /sdcard/sudo-temp");
             		Log.i(LOGTAG, "Finishing up...");
             		Shell.SU.run("mount -o remount /system");
             		Log.i(LOGTAG, "Install complete! Rechecking if Sudo is installed...");
-            		refresh(null);
-            	}
-            	else {
+            		refresh();
+            	} else {
             		rootfail();
             	}
     		}
@@ -141,15 +115,49 @@ public class MainActivity extends ActionBarActivity {
 
     }
     
+    // Recovery installation class
     public void recoveryInstall(View view){
     	// This is an early preparation for the future Recovery Install feature.
+    	retryMode = 2;
 		Log.i(LOGTAG, "Recovery Install button pressed. Showing recovery install information...");
 		Builder recoveryInfo = new AlertDialog.Builder(MainActivity.this);
-        recoveryInfo.setMessage(R.string.rootfail_message);
-        recoveryInfo.setTitle(R.string.rootfail_title);
-        recoveryInfo.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+        recoveryInfo.setMessage(R.string.recovery_install_message);
+        recoveryInfo.setTitle(R.string.recovery_install_title);
+        recoveryInfo.setPositiveButton(R.string.install_text, new DialogInterface.OnClickListener() {
         	public void onClick(DialogInterface dialog, int which) { 
         		// Installation code goes here.
+        		Log.i(LOGTAG, "Recovery Install confirmed. Starting recovery install process...");
+        		new Thread() {
+        			public void run() {
+        				Log.i(LOGTAG, "Getting Root Access...");
+        				if(Shell.SU.available()) {
+        					Log.i(LOGTAG, "Root Access Successful! Starting install...");
+        					Log.i(LOGTAG, "Using DRGAPI-AssetManager to extract files...");
+        					AssetManager.ExtractToAppCache(MainActivity.this, "sudoscript.txt", "sudo-temp");
+        	        		AssetManager.ExtractToAppCache(MainActivity.this, "recoveryinstall.zip", "sudo-temp.zip");
+        	        		Log.i(LOGTAG, "Using DRGAPI-AssetManager to load OpenRecoveryScript...");
+        	        		AssetManager.OpenRecoveryScript(MainActivity.this, "recoveryinstall.txt");
+        	        		Log.i(LOGTAG, "Waiting a few seconds...");
+        	        		try {
+        	        			Thread.sleep(3000);
+        	        		} catch(InterruptedException ex) {
+        	        			Thread.currentThread().interrupt();
+        	        			Log.e(LOGTAG, "An unknown error occurred!");
+        	        		}
+        	        		Log.i(LOGTAG, "Attempting reboot to recovery...");
+        	        		Shell.SU.run("reboot recovery");
+        	        		Log.w(LOGTAG, "Reboot may have failed. Trying alternate method...");
+        	        		Log.i(LOGTAG, "Using DRGAPI-AssetManager to extract files...");
+        	        		AssetManager.ExtractToAppCache(MainActivity.this, "reboot", "reboot");
+        	        		Log.i(LOGTAG, "Setting Permissions...");
+        	        		Shell.SH.run("chmod 755 " + MainActivity.this.getCacheDir() + "/reboot");
+        	        		Log.i(LOGTAG, "Rebooting to recovery...");
+        	        		Shell.SU.run(MainActivity.this.getCacheDir() + "/reboot recovery");
+        				} else {
+        					rootfail();
+        				}
+        			}
+        		}.start();
         	}
         });
         recoveryInfo.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -158,8 +166,9 @@ public class MainActivity extends ActionBarActivity {
         recoveryInfo.show();
     }
     
+    // Normal removal class
     public void remove(View view){
-    	setRetryInstall(false);
+    	retryMode = 1;
     	Log.i(LOGTAG, "Remove button pressed! Starting cleanup...");
     	new Thread() {
     		public void run() {
@@ -173,7 +182,7 @@ public class MainActivity extends ActionBarActivity {
             		Log.i(LOGTAG, "Finishing up...");
             		Shell.SU.run("mount -o remount /system");
             		Log.i(LOGTAG, "Cleanup complete! Rechecking if Sudo is installed...");
-            		refresh(null);
+            		refresh();
             	} else {
             		rootfail();
             	}
@@ -182,6 +191,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
     
+    // Root failure message class
     public void rootfail(){
 		MainActivity.this.runOnUiThread(new Runnable() {
 		    @Override
@@ -193,11 +203,14 @@ public class MainActivity extends ActionBarActivity {
         		suFailed.setTitle(R.string.rootfail_title);
         		suFailed.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
         			public void onClick(DialogInterface dialog, int which) { 
-        				if(isRetryInstall()){
+        				if(retryMode == 0) {
         					install(null);
-        				}
-        				else{
+        				} else if(retryMode == 1) {
         					remove(null);
+        				} else if(retryMode == 2) {
+        					recoveryInstall(null);
+        				} else {
+        					Log.e(LOGTAG, "An error has occurred!");
         				}
         			}
         		});
@@ -213,15 +226,6 @@ public class MainActivity extends ActionBarActivity {
 		Intent intent = new Intent(MainActivity.this, AboutActivity.class);
 		startActivity(intent);
     }
-
-	public boolean isRetryInstall() {
-		return retryInstall;
-	}
-
-	public boolean setRetryInstall(boolean retryInstall) {
-		this.retryInstall = retryInstall;
-		return retryInstall;
-	}
 	
 	
 	

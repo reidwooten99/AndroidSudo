@@ -12,7 +12,7 @@
     <string name="checking">Please wait…</string>
     <string name="sudo_download_path">/sdcard/sudo-temp</string>
     <string name="sudo_download_uri">http://dev.darkrealmgaming.com/androidsudo.txt</string>
-    <string name="current_version">Version 1.5 Prototype</string>
+    <string name="current_version">Version 2.0 Prototype</string>
     <string name="rootfail_title">Unable to Obtain Root Access</string>
     <string name="rootfail_message">We were not able to obtain root access! Are you properly rooted? Did you allow access to Sudo Installer?</string>
     <string name="retry">Try Again</string>
@@ -23,5 +23,9 @@
     <string name="github_uri">http://github.com/ColtonDRG/AndroidSudo</string>
     <string name="github_button">GitHub Project</string>
     <string name="title_activity_oss_licenses">Open Source Licenses</string>
+    <string name="recovery_install_title">Recovery Install</string>
+    <string name="recovery_install_message">Recovery Install will reboot your device to recovery mode, and install the sudo script as an update. This is useful on devices that have system write protection. This requires a custom recovery, such as TWRP or CWM. Your device will be rebooted.</string>
+    <string name="recovery_install_button">Recovery Install</string>
+    <string name="install_text">Install</string>
 
 </resources>

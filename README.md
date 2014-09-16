@@ -3,13 +3,15 @@ Sudo for Android Installer
 
 This tool installs a simple sudo script to your /system/xbin/.
 
+More information: http://dev.darkrealmgaming.com/projects/mobile/androidsudo/
+
 
 Download
 ========
 
 You can download a pre-compiled version directly to your device via the Google Play Store: https://play.google.com/store/apps/details?id=com.darkrealmgaming.androidsudo
 
-Google Play not for you? You can download the pre-compiled APK file from the DRGdl service: http://dl.darkrealmgaming.com/development/android/androidsudo/
+Google Play not for you? You can download the pre-compiled APK file from the DRGdl service: http://dl.darkrealmgaming.com/development/android/sudoinstaller/
 
 
 Source Code

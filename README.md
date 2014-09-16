@@ -29,6 +29,6 @@ Due to the lack of availability of older versions of Android for me to test this
 Legal (Copyright Information)
 =============================
 
-Copyright © 2014 Dark Realm Gaming
+Copyright &copy; 2014 Dark Realm Gaming
 <br>
 Licensed under The MIT License (http://github.com/ColtonDRG/AndroidSudo/blob/master/LICENSE)

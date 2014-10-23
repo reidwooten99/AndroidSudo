@@ -3,7 +3,7 @@ Sudo for Android Installer
 
 This tool installs a simple sudo script to your /system/xbin/.
 
-More information: http://dev.darkrealmgaming.com/projects/mobile/androidsudo/
+More information: https://darkrealmgaming.com/about/androidsudo/
 
 
 Download

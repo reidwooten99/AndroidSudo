@@ -116,15 +116,14 @@ public class MainActivity extends ActionBarActivity {
     
     // Recovery installation class
     public void recoveryInstall(View view){
-    	// This is an early preparation for the future Recovery Install feature.
     	retryMode = 2;
 		Log.i(LOGTAG, "Recovery Install button pressed. Showing recovery install information...");
 		Builder recoveryInfo = new AlertDialog.Builder(MainActivity.this);
         recoveryInfo.setMessage(R.string.recovery_install_message);
         recoveryInfo.setTitle(R.string.recovery_install_title);
         recoveryInfo.setPositiveButton(R.string.install_text, new DialogInterface.OnClickListener() {
-        	public void onClick(DialogInterface dialog, int which) { 
-        		// Installation code goes here.
+        	// Recovery Install
+        	public void onClick(DialogInterface dialog, int which) {
         		Log.i(LOGTAG, "Recovery Install confirmed. Starting recovery install process...");
         		new Thread() {
         			public void run() {
@@ -152,6 +151,7 @@ public class MainActivity extends ActionBarActivity {
         	        		Shell.SH.run("chmod 755 " + MainActivity.this.getCacheDir() + "/reboot");
         	        		Log.i(LOGTAG, "Rebooting to recovery...");
         	        		Shell.SU.run(MainActivity.this.getCacheDir() + "/reboot recovery");
+        	        		Log.w(LOGTAG, "Reboot may have failed!");
         				} else {
         					rootfail();
         				}
@@ -159,8 +159,42 @@ public class MainActivity extends ActionBarActivity {
         		}.start();
         	}
         });
-        recoveryInfo.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-        	public void onClick(DialogInterface dialog, int which) {}
+        recoveryInfo.setNegativeButton(R.string.remove_text, new DialogInterface.OnClickListener() {
+        	// Recovery Remove
+        	public void onClick(DialogInterface dialog, int which) {
+        		Log.i(LOGTAG, "Recovery Remove confirmed. Starting recovery removal process...");
+        		new Thread() {
+        			public void run() {
+        				Log.i(LOGTAG, "Getting Root Access...");
+        				if(Shell.SU.available()) {
+        					Log.i(LOGTAG, "Root Access Successful! Starting removal...");
+        					Log.i(LOGTAG, "Using DRGAPI-AssetManager to extract files...");
+        	        		AssetManager.ExtractToAppCache(MainActivity.this, "recoveryremove.zip", "sudo-temp.zip");
+        	        		Log.i(LOGTAG, "Using DRGAPI-AssetManager to load OpenRecoveryScript...");
+        	        		AssetManager.OpenRecoveryScript(MainActivity.this, "recoveryinstall.txt");
+        	        		Log.i(LOGTAG, "Waiting a few seconds...");
+        	        		try {
+        	        			Thread.sleep(3000);
+        	        		} catch(InterruptedException ex) {
+        	        			Thread.currentThread().interrupt();
+        	        			Log.e(LOGTAG, "An unknown error occurred!");
+        	        		}
+        	        		Log.i(LOGTAG, "Attempting reboot to recovery...");
+        	        		Shell.SU.run("reboot recovery");
+        	        		Log.w(LOGTAG, "Reboot may have failed. Trying alternate method...");
+        	        		Log.i(LOGTAG, "Using DRGAPI-AssetManager to extract files...");
+        	        		AssetManager.ExtractToAppCache(MainActivity.this, "reboot", "reboot");
+        	        		Log.i(LOGTAG, "Setting Permissions...");
+        	        		Shell.SH.run("chmod 755 " + MainActivity.this.getCacheDir() + "/reboot");
+        	        		Log.i(LOGTAG, "Rebooting to recovery...");
+        	        		Shell.SU.run(MainActivity.this.getCacheDir() + "/reboot recovery");
+        	        		Log.w(LOGTAG, "Reboot may have failed!");
+        				} else {
+        					rootfail();
+        				}
+        			}
+        		}.start();
+        	}
         });
         recoveryInfo.show();
     }

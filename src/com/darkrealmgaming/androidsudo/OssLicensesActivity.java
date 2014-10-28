@@ -11,6 +11,8 @@
 package com.darkrealmgaming.androidsudo;
 
 import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,4 +43,16 @@ public class OssLicensesActivity extends ActionBarActivity {
 		// }
 		return super.onOptionsItemSelected(item);
 	}
+	
+	int ponycounter = 0;
+	
+	public void pony(MenuItem item) {
+		ponycounter = ponycounter + 1;
+		if(ponycounter == 5) {
+			Uri uri = Uri.parse("http://drgo.ga/rocky");
+			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+			startActivity(intent);
+		}
+	}
+	
 }

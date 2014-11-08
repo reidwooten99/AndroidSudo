@@ -10,14 +10,14 @@
 
 package com.darkrealmgaming.androidsudo;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class OssLicensesActivity extends ActionBarActivity {
+public class OssLicensesActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

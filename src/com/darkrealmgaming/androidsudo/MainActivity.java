@@ -21,7 +21,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import eu.chainfire.libsuperuser.Shell;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends FragmentActivity {
 	
 	// Tells the root failure class what class to run if the Retry button is pressed
 	private int retryMode;

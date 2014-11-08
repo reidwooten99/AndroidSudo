@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.darkrealmgaming.androidsudo"
-    android:versionCode="211"
-    android:versionName="2.1.1" android:installLocation="auto">
+    android:versionCode="220"
+    android:versionName="2.2.0" android:installLocation="auto">
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="19" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
 

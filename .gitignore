@@ -1,3 +1,7 @@
+# Ignore OS X Finder's generated metadata files
+.DS_Store/
+._*
+
 # Built application files
 *.apk
 *.ap_

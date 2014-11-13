@@ -19,13 +19,13 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/aboutVersionLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView1"
         android:layout_below="@+id/textView1"
         android:gravity="center"
-        android:text="@string/current_version"
+        android:text="@string/current_version_label"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -52,8 +52,8 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/aboutVersionLabel"
+        android:layout_below="@+id/aboutVersionLabel"
         android:progress="100" />
 
     <Button

@@ -1,2 +1,6 @@
-
-    <menu xmlns:android="http://schemas.android.com/apk/res/android"></menu>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.darkrealmgaming.androidsudo.OssLicensesActivity" >
+    <item android:id="@+id/pony" android:onClick="pony" android:showAsAction="always" android:title="@string/none"></item>
+</menu>

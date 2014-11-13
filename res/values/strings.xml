@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Sudo Installer</string>
+    <string name="current_version">2.2.1</string><string name="current_version_label">Version 2.2.1</string><string name="app_name">Sudo Installer</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="warning">The sudo script will be installed to your device. This will modify system files, and is therefore dangerous. It is your responsibility if this messes up your device. This precedure requires that you have root! The status text below will automatically update when the procedure is complete.</string>
@@ -12,7 +12,7 @@
     <string name="checking">Please wait…</string>
     <string name="sudo_download_path">/sdcard/sudo-temp</string>
     <string name="sudo_download_uri">http://dev.darkrealmgaming.com/androidsudo.txt</string>
-    <string name="current_version">Version 2.2.0</string>
+    
     <string name="rootfail_title">Unable to Obtain Root Access</string>
     <string name="rootfail_message">We were not able to obtain root access! Are you properly rooted? Did you allow access to Sudo Installer?</string>
     <string name="retry">Try Again</string>
@@ -29,5 +29,6 @@
     <string name="install_text">Install</string>
     <string name="remove_text">Remove</string>
     <string name="none"/>
+    
 
 </resources>

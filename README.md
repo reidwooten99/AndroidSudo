@@ -35,6 +35,6 @@ It may also have universal bugs (with all devices and versions), or bugs with sp
 Legal (Licensing and Copyright Information)
 ===========================================
 
-Copyright &copy; 2014 Dark Realm Gaming
+Copyright &copy; 2014-2015 Dark Realm Gaming (darkrealmgaming.com)
 <br>
 Licensed under The MIT License (http://github.com/ColtonDRG/AndroidSudo/blob/master/LICENSE)
